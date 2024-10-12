@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="static/login.css">
+</head>
+<body>
+    <div class="container">
+        <h2>请登录学生管理系统</h2>
+        <form action="login" method="post">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">密码:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit" name="action" value="login">登录</button>
+        </form>
+        <a href="register.html">还没有注册？注册一下吧</a>
+    </div>
+</body>
+</html>

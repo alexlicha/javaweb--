@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生管理系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/index.css">
+    <script src="static/index.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <div class="sidebar">
+        <h2>菜单</h2>
+        <a href="#queryByNumber" onclick="showSection('queryByNumber')">按学号查询</a>
+        <a href="#queryByName" onclick="showSection('queryByName')">按姓名查询</a>
+        <a href="#queryByCollege" onclick="showSection('queryByCollege')">按学院查询</a>
+        <a href="#queryByMajor" onclick="showSection('queryByMajor')">按专业查询</a>
+        <a href="#add" onclick="showSection('add')">新增学生</a>
+        <a href="#delete" onclick="showSection('delete')">删除学生</a>
+        <a href="#update" onclick="showSection('update')">更新学生</a>
+    </div>
+
+    <div class="content">
+        <h1>学生管理系统</h1>
+
+        <div id="queryByNumber" class="section">
+            <h2>按学号查询学生</h2>
+            <form onsubmit="fetchStudentData(event, 'studentNumber')">
+                <label for="studentNumber">学号:</label>
+                <input type="text" name="studentNumber" id="studentNumber" placeholder="请输入学号" required />
+                <button type="submit">查询</button>
+            </form>
+        </div>
+
+        <div id="queryByName" class="section" style="display:none;">
+            <h2>按姓名查询学生</h2>
+            <form onsubmit="fetchStudentData(event, 'name')">
+                <label for="name">姓名:</label>
+                <input type="text" name="name" id="name" placeholder="请输入姓名" required />
+                <button type="submit">查询</button>
+            </form>
+        </div>
+
+        <div id="queryByCollege" class="section" style="display:none;">
+            <h2>按学院查询学生</h2>
+            <form onsubmit="fetchStudentData(event, 'college')">
+                <label for="college">学院:</label>
+                <input type="text" name="college" id="college" placeholder="请输入学院" required />
+                <button type="submit">查询</button>
+            </form>
+        </div>
+
+        <div id="queryByMajor" class="section" style="display:none;">
+            <h2>按专业查询学生</h2>
+            <form onsubmit="fetchStudentData(event, 'major')">
+                <label for="major">专业:</label>
+                <input type="text" name="major" id="major" placeholder="请输入专业" required />
+                <button type="submit">查询</button>
+            </form>
+        </div>
+
+        <div id="add" class="section" style="display:none;">
+            <h2>新增学生</h2>
+            <form action="student" method="post">
+                <label for="newStudentNumber">学号:</label>
+                <input type="text" name="studentNumber" id="newStudentNumber" required />
+                <label for="newName">姓名:</label>
+                <input type="text" name="name" id="newName" required />
+                <label for="newGender">性别:</label>
+                <input type="text" name="gender" id="newGender" />
+                <label for="newHometown">籍贯:</label>
+                <input type="text" name="hometown" id="newHometown" />
+                <label for="newIdCard">身份证号:</label>
+                <input type="text" name="idCard" id="newIdCard" />
+                <label for="newCollege">学院:</label>
+                <input type="text" name="college" id="newCollege" />
+                <label for="newMajor">专业:</label>
+                <input type="text" name="major" id="newMajor" />
+                <label for="newClassName">班级:</label>
+                <input type="text" name="className" id="newClassName" />
+                <button type="submit" name="action" value="addStudent">新增学生</button>
+            </form>
+        </div>
+
+        <div id="delete" class="section" style="display:none;">
+            <h2>删除学生</h2>
+            <form action="student" method="post">
+                <label for="deleteStudentNumber">学号:</label>
+                <input type="text" name="studentNumber" id="deleteStudentNumber" required />
+                <button type="submit" name="action" value="deleteStudent">删除学生</button>
+            </form>
+        </div>
+
+        <div id="update" class="section" style="display:none;">
+            <h2>更新学生</h2>
+            <form id="updateForm" onsubmit="return false;">
+                <label for="updateStudentNumber">学号:</label>
+                <input type="text" name="studentNumber" id="updateStudentNumber" required />
+                <button type="button" onclick="fetchStudentDataForUpdate()">查找学生</button>
+
+                <div id="studentInfo" style="display: none;">
+                    <div class="student-detail">姓名: <span id="studentName"></span></div>
+                    <div class="student-detail">性别: <span id="studentGender"></span></div>
+                    <div class="student-detail">家乡: <span id="studentHometown"></span></div>
+                    <div class="student-detail">身份证号: <span id="studentIdCard"></span></div>
+                    <div class="student-detail">学院: <span id="studentCollege"></span></div>
+                    <div class="student-detail">专业: <span id="studentMajor"></span></div>
+                    <div class="student-detail">班级: <span id="studentClassName"></span></div>
+                </div>
+
+                <div id="updateFields" style="display: none;">
+                    <label for="updateField">选择要更新的字段:</label>
+                    <select id="updateField" onchange="displayFieldInput()">
+                        <option value="">-- 请选择 --</option>
+                        <option value="name">姓名</option>
+                        <option value="gender">性别</option>
+                        <option value="hometown">家乡</option>
+                        <option value="idCard">身份证号</option>
+                        <option value="college">学院</option>
+                        <option value="major">专业</option>
+                        <option value="className">班级</option>
+                    </select>
+                    <br/><br/>
+                    <div id="newValueInput" style="display:none;">
+                        <label for="newValue">新值:</label>
+                        <input type="text" id="newValue" />
+                        <button type="button" onclick="updateStudent()">更新</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="resultSection" class="section" style="display:none;">
+            <h2>查询结果</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>籍贯</th>
+                    <th>身份证号</th>
+                    <th>学院</th>
+                    <th>专业</th>
+                    <th>班级</th>
+                </tr>
+                </thead>
+                <tbody id="resultTableBody">
+                <!-- 查询结果将通过 JavaScript 动态插入 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

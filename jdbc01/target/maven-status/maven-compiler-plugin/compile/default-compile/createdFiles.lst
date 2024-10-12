@@ -1,0 +1,13 @@
+org\example\controller\StudentController.class
+org\example\entity\administrator.class
+org\example\dao\StudentDAOImpl.class
+org\example\dao\StudentDAO.class
+org\example\entity\Student.class
+org\example\dao\administratorDAOImpl.class
+org\example\dao\administratorDAO.class
+org\example\dao\GenericDAO.class
+org\example\service\GenericService.class
+org\example\service\StudentServiceImpl.class
+org\example\controller\RegisterServlet.class
+org\example\service\StudentService.class
+org\example\controller\LoginServlet.class
